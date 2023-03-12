@@ -1,0 +1,37 @@
+eureka:
+   client:
+      serviceUrl:
+         defaultZone: http://localhost:8761/eureka/
+
+spring:
+   security:
+      oauth2:
+         client:
+            provider:
+               my-keycloak-provider:
+                  issuer-uri: http://localhost:8180/auth/realms/ssd-exam-realm
+                  # Individual properties can also be provided this way
+      #            token-uri: http://localhost:8080/auth/realms/amrutrealm/protocol/openid-connect/token
+      #            authorization-uri: http://localhost:8080/auth/realms/amrutrealm/protocol/openid-connect/auth
+      #            userinfo-uri: http://localhost:8080/auth/realms/amrutrealm/protocol/openid-connect/userinfo
+      #            user-name-attribute: preferred_username
+            registration:
+               keycloak-spring-gateway-client:
+                  provider: my-keycloak-provider
+                  scope: openid
+                  client-id: ssd-api-gateway-application
+                  client-secret: htW70Xr1SHdYMMD0LvneaB0vPEOfSD0E
+                  authorization-grant-type: authorization_code
+                  redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
+         resourceserver:
+           jwt:
+             issuer-uri: http://localhost:8180/auth/realms/ssd-exam-realm
+
+
+# Enable these to debug the Authorization flow
+logging:
+    level:
+      org:
+        springframework:
+          security:
+            web: DEBUG
